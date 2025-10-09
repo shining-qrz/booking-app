@@ -19,29 +19,29 @@ func main() {
 
 	var bookings []string
 
-	fmt.Printf("Welcome to %v booking application!\n", conferenceName)
-	fmt.Printf("We have a total of %v tickets and %v are still available.\n", conferenceTickets, remainingTickets)
+	for {
+		fmt.Printf("Welcome to %v booking application!\n", conferenceName)
+		fmt.Printf("We have a total of %v tickets and %v are still available.\n", conferenceTickets, remainingTickets)
 
-	fmt.Println("请输入用户名：")
-	fmt.Scan(&username)
+		fmt.Println("请输入用户名：")
+		fmt.Scan(&username)
 
-	fmt.Println("请输入需预定票的数量：")
-	fmt.Scan(&ticketCount)
+		fmt.Println("请输入需预定票的数量：")
+		fmt.Scan(&ticketCount)
 
-	fmt.Println("请输入您的邮箱：")
-	fmt.Scan(&email)
+		fmt.Println("请输入您的邮箱：")
+		fmt.Scan(&email)
 
-	remainingTickets = remainingTickets - ticketCount
+		if remainingTickets-ticketCount <= 50 {
+			remainingTickets = remainingTickets - ticketCount
+			bookings = append(bookings, username)
 
-	bookings = append(bookings, username)
+			fmt.Printf("恭喜，%v！您已成功预定%v张票，我们稍后将会发送邮件至：%v\n", username, ticketCount, email)
 
-	fmt.Printf("恭喜，%v！您已成功预定%v张票，我们稍后将会发送邮件至：%v\n", username, ticketCount, email)
-
-	fmt.Println("剩余票数：", remainingTickets)
-
-	fmt.Printf("The Whole Slice: %v\n", bookings)
-	fmt.Printf("The First Value: %v\n", bookings[0])
-	fmt.Printf("The Lenth of Slice: %v\n", len(bookings))
-	fmt.Printf("The Type of Slice: %T\n", bookings)
+			fmt.Println("剩余票数：", remainingTickets)
+		} else {
+			fmt.Printf("剩余票数不足，无法预定！\n")
+		}
+	}
 
 }
