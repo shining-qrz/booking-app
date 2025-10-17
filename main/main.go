@@ -38,6 +38,9 @@ func main() {
 		//输出订票信息
 		common.OutPutBookingInfo(user)
 
+		//发送会议票
+		go common.SendEmail(user)
+
 		//输出结束行
 		common.OutPutEndLine()
 	}

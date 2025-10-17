@@ -13,12 +13,21 @@ const ConferenceTickets = 50
 var RemainingTickets uint = 50
 var Bookings []User
 
+// 用户
 type User struct {
 	firstName   string
 	lastName    string
 	userName    string
 	email       string
 	ticketCount uint
+}
+
+type ConferenceTicket struct {
+	startTime       time.Time //会议开始时间
+	endTime         time.Time //会议结束时间
+	location        string    //会议地点
+	bookingUserName string    //预定者姓名
+	bookingTime     time.Time //预定时间
 }
 
 // Greeting 输出招呼语
@@ -71,8 +80,32 @@ func OutPutBookingInfo(user User) {
 	fmt.Printf("当前预定成功者：%v\n", bookingNames)
 }
 
+// OutPutEndLine 输出结束行
 func OutPutEndLine() {
-	fmt.Println("\n---------------------------------------------------")
-	time.Sleep(5 * time.Second)
+	fmt.Println("\n----------------------本次预定结束----------------------")
 	fmt.Println()
+}
+
+func SendEmail(user User) {
+	time.Sleep(10 * time.Second)
+	var i uint = 0
+	for ; i < user.ticketCount; i++ {
+		ticket := ConferenceTicket{
+			startTime:       time.Date(2025, time.October, 31, 19, 0, 0, 0, time.Local),
+			endTime:         time.Date(2025, time.October, 31, 20, 0, 0, 0, time.Local),
+			location:        "武汉",
+			bookingUserName: user.userName,
+			bookingTime:     time.Now(),
+		}
+		fmt.Printf("\n################################################\n")
+		fmt.Printf("This is %v ticket\n", user.email)
+		fmt.Printf("会议开始时间：%v\n", ticket.startTime)
+		fmt.Printf("会议结束时间：%v\n", ticket.endTime)
+		fmt.Printf("会议地点：%v\n", ticket.location)
+		fmt.Printf("预定人：%v\n", ticket.bookingUserName)
+		fmt.Printf("预定时间：%v\n", ticket.bookingTime)
+		fmt.Printf("当前第%v张，共%v张\n", i+uint(1), user.ticketCount)
+		fmt.Printf("################################################\n")
+	}
+
 }
