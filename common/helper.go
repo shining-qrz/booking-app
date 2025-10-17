@@ -11,7 +11,15 @@ var ConferenceName = "qrz Conference"
 const ConferenceTickets = 50
 
 var RemainingTickets uint = 50
-var Bookings []string
+var Bookings []User
+
+type User struct {
+	firstName   string
+	lastName    string
+	userName    string
+	email       string
+	ticketCount uint
+}
 
 // Greeting 输出招呼语
 func Greeting() {
@@ -20,48 +28,47 @@ func Greeting() {
 }
 
 // GetUserInput 获取用户输入
-func GetUserInput() (string, string, string, uint, string) {
-	var firstName string
-	var lastName string
-	var userName string
-	var ticketCount uint
-	var email string
-
+func GetUserInput() User {
+	var user User
 	//读取用户输入
 	fmt.Println("请输入姓氏：")
-	fmt.Scan(&firstName)
+	fmt.Scan(&user.firstName)
 	fmt.Println("请输入名字：")
-	fmt.Scan(&lastName)
+	fmt.Scan(&user.lastName)
 	fmt.Println("请输入需预定票的数量：")
-	fmt.Scan(&ticketCount)
+	fmt.Scan(&user.ticketCount)
 	fmt.Println("请输入您的邮箱：")
-	fmt.Scan(&email)
+	fmt.Scan(&user.email)
 
-	userName = firstName + lastName
+	user.userName = user.firstName + user.lastName
 
-	return firstName, lastName, userName, ticketCount, email
+	return user
 }
 
 // ValidateUserInput 验证用户输入
-func ValidateUserInput(firstName string, lastName string, email string, ticketCount uint) (bool, bool, bool) {
-	isValidName := len(firstName) >= 2 && len(lastName) >= 2
-	isValidEmail := strings.Contains(email, "@")
-	isValidTicketCount := ticketCount > 0 && ticketCount <= RemainingTickets
+func ValidateUserInput(user User) (bool, bool, bool) {
+	isValidName := len(user.firstName) >= 2 && len(user.lastName) >= 2
+	isValidEmail := strings.Contains(user.email, "@")
+	isValidTicketCount := user.ticketCount > 0 && user.ticketCount <= RemainingTickets
 
 	return isValidName, isValidEmail, isValidTicketCount
 }
 
 // BookTickets 预定票
-func BookTickets(ticketCount uint, userName string) {
-	RemainingTickets = RemainingTickets - ticketCount
-	Bookings = append(Bookings, userName)
+func BookTickets(user User) {
+	RemainingTickets = RemainingTickets - user.ticketCount
+	Bookings = append(Bookings, user)
 }
 
 // OutPutBookingInfo 输出预定信息
-func OutPutBookingInfo(userName string, ticketCount uint, email string) {
-	fmt.Printf("恭喜，%v！您已成功预定%v张票，我们稍后将会发送邮件至：%v\n", userName, ticketCount, email)
+func OutPutBookingInfo(user User) {
+	fmt.Printf("恭喜，%v！您已成功预定%v张票，我们稍后将会发送邮件至：%v\n", user.userName, user.ticketCount, user.email)
 	fmt.Println("剩余票数：", RemainingTickets)
-	fmt.Printf("已预定用户名单：%v\n", Bookings)
+	var bookingNames []string
+	for _, booking := range Bookings {
+		bookingNames = append(bookingNames, booking.userName)
+	}
+	fmt.Printf("当前预定成功者：%v\n", bookingNames)
 }
 
 func OutPutEndLine() {

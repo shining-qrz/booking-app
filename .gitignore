@@ -1,2 +1,5 @@
 # ignore IDE specific files
 *.idea
+
+# ignore md files
+*.md

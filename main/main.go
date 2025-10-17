@@ -12,10 +12,10 @@ func main() {
 		common.Greeting()
 
 		//获取用户输入
-		firstName, lastName, userName, ticketCount, email := common.GetUserInput()
+		user := common.GetUserInput()
 
 		//校验用户输入
-		isValidName, isValidEmail, isValidTicketCount := common.ValidateUserInput(firstName, lastName, email, ticketCount)
+		isValidName, isValidEmail, isValidTicketCount := common.ValidateUserInput(user)
 		if !isValidName {
 			fmt.Println("您输入的姓名不合法，名字和姓氏至少需要2个字符，请重新输入。")
 			common.OutPutEndLine()
@@ -33,10 +33,10 @@ func main() {
 		}
 
 		//订票
-		common.BookTickets(ticketCount, userName)
+		common.BookTickets(user)
 
 		//输出订票信息
-		common.OutPutBookingInfo(userName, ticketCount, email)
+		common.OutPutBookingInfo(user)
 
 		//输出结束行
 		common.OutPutEndLine()
